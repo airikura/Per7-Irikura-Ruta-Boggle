@@ -4,7 +4,7 @@ int width = 80;
 int height = 80;
 int x = 200;
 int y = 200;
-char letter = (char) int(random(25) + 97);
+char letter = (char) int(random(25) + 65);
 boolean isSelected = false;
 
 Tile(int x, int y){
@@ -12,6 +12,8 @@ Tile(int x, int y){
     this.y = y;
     
 }
+
+char getLetter(){ return letter;}
 
 void setup(){
    size(width,height);
@@ -25,6 +27,7 @@ void draw(){
   
 }
 
+///Doesnt Work
 void mouseClicked(){
     if (isSelected){
        c = color(255,255,255);

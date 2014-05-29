@@ -4,7 +4,7 @@ public class Tree{
       char letter;
       //True if the node marks the end of a possible word
       boolean endWord;
-      //Each char node has 26 children (UpperCase Letters)
+      //Ture if the node maks the end of a possible word that was already submitted
       Node[] nextLetter = new Node[26];
   
       //Used to set the root (hold the char '3')
@@ -24,7 +24,7 @@ public class Tree{
      }
      
      char getCharacter(){  return letter;}
-     
+     boolean isEndWord(){ return endWord;}
      Node getNextLetter(int index){  return nextLetter[index];}
      
      void setCharacter(char c){   letter = c;}
@@ -32,6 +32,8 @@ public class Tree{
   }
 
   Node root;
+  //number of words in the tree
+  int totalWords;
   
   public Tree(){
       root = new Node();
@@ -43,7 +45,7 @@ public class Tree{
     Node tracker= root;
     int charIndex = 0;
   
-    while (charIndex > word.length()){
+    while (charIndex < word.length()){
       char current = word.charAt(charIndex);
       int currentASCII = (int) current;
       if (tracker.getNextLetter(currentASCII - 65) == null){
@@ -52,12 +54,37 @@ public class Tree{
       }
       if(charIndex == word.length()-1){
         tracker.getNextLetter(currentASCII - 65).setWord();
+        totalWords++;
       }
       tracker = tracker.getNextLetter(currentASCII - 65);
       charIndex++;
     }
   }
-   
-   
+  
+  //Returns true if the word is found, false if not
+  //Does NOT remove word from the dictionary/tree
+  boolean find(String word){
+    Node tracker = root;
+    char current;
+    int currentASCII;
+    for (int i=0; i<word.length()-1; i++){
+      current = word.charAt(i);
+      currentASCII = (int) current;
+      if (tracker.getNextLetter(currentASCII - 65) == null){
+        return false;
+      } else {
+          tracker = tracker.getNextLetter(currentASCII - 65);
+        }
+      }  
+      //Checks to see if the last letter is a valid node
+      //Returns true if it is a valid node and is marked by endWord
+      currentASCII = (int) word.charAt(word.length()-1);
+      if (tracker.getNextLetter(currentASCII - 65) == null){
+          return false;
+      } else {
+        return tracker.getNextLetter(currentASCII - 65).isEndWord();
+    }
   }
+   
+}
 
