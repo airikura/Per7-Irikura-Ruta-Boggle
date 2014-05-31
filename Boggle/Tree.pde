@@ -4,13 +4,13 @@ public class Tree{
       char letter;
       //True if the node marks the end of a possible word
       boolean endWord;
-      //Ture if the node maks the end of a possible word that was already submitted
-      Node[] nextLetter = new Node[26];
+      Node[] nextLetter;
   
       //Used to set the root (hold the char '3')
       Node(){
           letter = '3';
           endWord = false;
+          nextLetter = new Node[26];
            for (int i =0; i<26; i++){
             nextLetter[i] = null;
         }
@@ -18,17 +18,29 @@ public class Tree{
      Node(char c){
         letter = c;
         endWord = false;
+         nextLetter = new Node[26];
         for (int i =0; i<26; i++){
             nextLetter[i] = null;
         }
      }
      
-     char getCharacter(){  return letter;}
-     boolean isEndWord(){ return endWord;}
-     Node getNextLetter(int index){  return nextLetter[index];}
+     char getCharacter(){  
+       return letter;}
+     boolean isEndWord(){ 
+       return endWord;}
+     Node getNextLetter(int index){  
+       return nextLetter[index];}
      
-     void setCharacter(char c){   letter = c;}
-     void setWord(){   endWord = true;}
+     void setNextNode(Node n, int index){
+       if(index>-1 && index<26){
+           nextLetter[index] = n;
+       }
+     }
+     
+     void setCharacter(char c){   
+       letter = c;}
+     void setWord(){  
+       endWord = true;}
   }
 
   Node root;
@@ -44,22 +56,26 @@ public class Tree{
   void insert(String word){
     Node tracker= root;
     int charIndex = 0;
-  
     while (charIndex < word.length()){
       char current = word.charAt(charIndex);
       int currentASCII = (int) current;
       if (tracker.getNextLetter(currentASCII - 65) == null){
-        Node temp = tracker.getNextLetter(currentASCII - 65);
-        temp = new Node(current);
+        Node temp = new Node(current);
+        tracker.setNextNode(temp, currentASCII-65);
       }
       if(charIndex == word.length()-1){
-        tracker.getNextLetter(currentASCII - 65).setWord();
-        totalWords++;
+        if (!tracker.getNextLetter(currentASCII-65).isEndWord()){
+          tracker.getNextLetter(currentASCII - 65).setWord();
+          totalWords++;
+        }
       }
       tracker = tracker.getNextLetter(currentASCII - 65);
       charIndex++;
     }
   }
+
+  int getTotalWords(){
+    return totalWords;}
   
   //Returns true if the word is found, false if not
   //Does NOT remove word from the dictionary/tree
