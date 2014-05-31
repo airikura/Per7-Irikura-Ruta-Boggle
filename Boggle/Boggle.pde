@@ -8,6 +8,10 @@ Tree foundWords;
 
 void setup() {
   size(400, 400);
+  dict = new Tree();
+  //Calls the import function below to create the Dictionary Tree
+  importTextFile();
+  foundWords = new Tree();
   tiles = new ArrayList<Tile>();
   board = new char[4][4];
   for (int i =0; i < 4; i++) {
@@ -27,6 +31,16 @@ void draw() {
     m.display();
   }
 }
+
+
+//Import tree reads in the wordList text file and adds all these words to the tree
+void importTextFile(){
+  String[] words = loadStrings("wordList.txt");
+  for (int i=0; i<words.length; i++){
+    dict.insert(words[i]);
+  }
+}
+
 
 //Methods that will be later used to check if the entered word is valid!
 
