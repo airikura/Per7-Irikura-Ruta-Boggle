@@ -5,32 +5,24 @@ char[][] board;
 char[][] tempBoard;
 Tree dict;
 Tree foundWords;
+Board game;
 
 void setup() {
   size(400, 400);
   dict = new Tree();
   //Calls the import function below to create the Dictionary Tree
   importTextFile();
+  game = new Board();
   foundWords = new Tree();
-  tiles = new ArrayList<Tile>();
   board = new char[4][4];
-  for (int i =0; i < 4; i++) {
-    for (int k =0; k < 4; k++) {
-      Tile a = new Tile(k * 80, i *80);
-      tiles.add(a);
-      board[i][k] = a.getLetter();
     }
-  }
-}
+
 
 void draw() {
   background(0, 0, 255);
   fill(0, 255, 0);
-  for (int i =0; i < tiles.size (); i ++) {
-    Tile m = tiles.get(i);
-    m.display();
+  game.display();
   }
-}
 
 
 //Import tree reads in the wordList text file and adds all these words to the tree
@@ -54,6 +46,15 @@ boolean isWordDuplicate(String word) {
   return foundWords.find(word);
 }
 
+//you cant have one letter words
+boolean appropLength(String word){
+  if (word == null && word.length() <2){
+    return false;
+  }else {
+      return true;
+  }
+}
+
 void createTempBoard() {
   tempBoard = new char[board.length][board[0].length];
   for (int i=0; i<board.length; i++) {
@@ -63,6 +64,8 @@ void createTempBoard() {
   }
 }
 
+//We dont really need this if the user is only going to be clicking
+//We will need this if the user is going to be typing in the input
 //Checks to see if the letters are even on the board
 boolean areLettersOnBoard(String word) {
   createTempBoard();

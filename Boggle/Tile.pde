@@ -4,13 +4,17 @@ int width = 80;
 int height = 80;
 int x = 200;
 int y = 200;
-char letter = (char) int(random(25) + 65);
+char letter;
 boolean isSelected = false;
 
-Tile(int x, int y){
+public Tile(int x, int y, char c){
     this.x = x;
     this.y = y;
-    
+    letter = c;    
+}
+
+public Tile(char c){
+  letter = c;
 }
 
 char getLetter(){ return letter;}
@@ -44,7 +48,7 @@ void display(){
    rect(x,y,80,80);
    fill(0);
    textSize(32);
-   text(letter, x + width/2 - 10,y + height/2 + 5);
+   text(getLetter(), x + width/2 - 10,y + height/2 + 5);
 }
        
 }
