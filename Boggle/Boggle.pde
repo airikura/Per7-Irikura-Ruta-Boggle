@@ -1,4 +1,3 @@
-ArrayList<Tile> tiles;
 //identical to the board that is displayed on the screen
 char[][] board;
 //copy of the original board that can be manipulated and reset
@@ -15,7 +14,7 @@ void setup() {
   game = new Board();
   foundWords = new Tree();
   board = new char[4][4];
-    }
+}
 
 
 void draw() {
@@ -33,6 +32,14 @@ void importTextFile(){
   }
 }
 
+//for a 4x4 board
+void createCharBoard(){
+  for (int i=0; i<4; i++){
+    for(int k=0; k<4; k++){
+      board[i][k] = game.getTile(i,k).getLetter();
+    }  
+  }    
+}
 
 //Methods that will be later used to check if the entered word is valid!
 
@@ -48,7 +55,7 @@ boolean isWordDuplicate(String word) {
 
 //you cant have one letter words
 boolean appropLength(String word){
-  if (word == null && word.length() <2){
+  if (word == null || word.length() <2){
     return false;
   }else {
       return true;
