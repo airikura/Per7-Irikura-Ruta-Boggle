@@ -26,12 +26,14 @@ public class Board {
   'D', 'E', 'I', 'L', 'R', 'X'};
   char[] pickedLetters;
   Tile[][] gameBoard;
+ 
 
 
   public Board() {
     setUpLetters();
     gameBoard = new Tile[4][4];
     fillBoard();
+    
   }
   
   Tile getTile(int r, int c){
@@ -45,6 +47,9 @@ public class Board {
         m.display();
       }
     }
+    fill(0);
+    rect(340, 80, 40, 40);
+    
   }
 
   void fillBoard() {
@@ -56,6 +61,8 @@ public class Board {
       }
     }
   }
+  
+  
 
   void setUpLetters() {
     bag = new Die[16];

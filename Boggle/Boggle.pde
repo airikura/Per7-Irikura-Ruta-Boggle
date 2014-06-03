@@ -6,6 +6,7 @@ Tree dict;
 Tree foundWords;
 Board game;
 
+
 void setup() {
   size(400, 400);
   dict = new Tree();
@@ -23,6 +24,25 @@ void draw() {
   game.display();
   }
 
+//Changes the color of tile pressed to blue, and adds it to end of word
+void mousePressed(){
+    for (int i =0; i < 4; i ++){
+      for (int j =0; j < 4; j++){
+        Tile selected = game.getTile(i,j);
+        if (selected.inBounds(mouseX, mouseY)){
+         
+          selected.select();
+          
+          return;
+        }
+      }
+    }
+    
+
+          
+        
+}
+   
 
 //Import tree reads in the wordList text file and adds all these words to the tree
 void importTextFile(){

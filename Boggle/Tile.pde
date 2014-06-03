@@ -13,8 +13,16 @@ public Tile(int x, int y, char c){
     letter = c;    
 }
 
+
 public Tile(char c){
   letter = c;
+}
+
+boolean inBounds(int mouseX, int mouseY){
+  if ((abs(x - mouseX) < 80) && abs(y - mouseY) < 80){
+     return true;
+  }
+  return false;
 }
 
 char getLetter(){ return letter;}
@@ -32,7 +40,7 @@ void draw(){
 }
 
 ///Doesnt Work
-void mouseClicked(){
+void select(){
     if (isSelected){
        c = color(255,255,255);
        
