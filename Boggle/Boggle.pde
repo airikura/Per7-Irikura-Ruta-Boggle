@@ -27,19 +27,10 @@ void draw() {
   game.display();
 }
 
-//Returns true if the cooridnate was already selected
-boolean AlreadyPressed(Coordinate c) {
-  for (int i =0; i<coors.size (); i++) {
-    if (coors.get(i).repeatCoor(c)) {
-      return true;
-    }
-  }
-  return false;
-}
 
 Tile getTileWithCoor(Coordinate c) {
-  int row = c.getRow();
-  int col = c.getCol();
+  int row = c.getR();
+  int col = c.getC();
   return game.getTile(row, col);
 }
 
@@ -57,7 +48,8 @@ void mousePressed() {
           current = current + selected.getLetter();
           return;
         } else {
-          if (selected.getCoordinate().isAdjacentTo(coors.get(coors.size()-1))) {
+          Coordinate prev = coors.get(coors.size()-1);
+          if (selected.getCoordinate().isAdjacentTo(prev)) {
             if (!selected.getIsSelected()) {
               selected.select();
               coors.add(selected.getCoordinate());
@@ -70,6 +62,7 @@ void mousePressed() {
             //reset all of the tiles and get rid of the word
           } else {
             reset();
+            return;
           }
         }
       }

@@ -33,30 +33,29 @@ char getLetter(){ return letter;}
 Coordinate getCoordinate(){ return coor;}
 boolean getIsSelected(){ return isSelected;}
 
-void setColor(int a, int b, int c){
-  c = color(a, b, c);
+void setColor(int a, int b, int d){
+  c = color(a, b, d);
 }
 
 void setup(){
    size(width,height);
-   
-   
-   
-}
-void draw(){
-   background(255);
- 
-  
 }
 
+void draw(){
+   background(255);
+ }
+
+//Tile turns red
 void wrong(){
   c = color(255,0,0);
 }
 
+//Tile turns green
 void correct(){
   c = color(0,255,0);
 }
 
+//If selected, tile turns blue
 void select(){
     if (isSelected){
        c = color(255,255,255);

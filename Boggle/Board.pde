@@ -49,7 +49,6 @@ public class Board {
         m.display();
       }
     }
-    fill(0);
   }
 
   void reset() {
@@ -59,7 +58,6 @@ public class Board {
         m.reset();
       }
     }
-    fill(0);
   }
 
 
