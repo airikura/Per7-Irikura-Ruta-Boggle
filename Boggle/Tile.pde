@@ -33,6 +33,9 @@ char getLetter(){ return letter;}
 Coordinate getCoordinate(){ return coor;}
 boolean getIsSelected(){ return isSelected;}
 
+void setColor(int a, int b, int c){
+  c = color(a, b, c);
+}
 
 void setup(){
    size(width,height);
@@ -46,6 +49,13 @@ void draw(){
   
 }
 
+void wrong(){
+  c = color(255,0,0);
+}
+
+void correct(){
+  c = color(0,255,0);
+}
 
 void select(){
     if (isSelected){

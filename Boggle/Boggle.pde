@@ -64,26 +64,49 @@ void mousePressed() {
               current = current + selected.getLetter();
               return;
             } else {
-              for (int k=0; k<coors.size (); k++) {
-                Tile temp = getTileWithCoor(coors.get(k));
-                temp.reset();
-              }
-              current = "";
+              reset();
               return;
             }
             //reset all of the tiles and get rid of the word
           } else {
-             for (int k=0; k<coors.size (); k++) {
-                Tile temp = getTileWithCoor(coors.get(k));
-                temp.reset();
-              }
-            current = "";
+            reset();
           }
         }
       }
     }
   }
 }
+
+void keyPressed() {
+  if (key == ENTER) {
+    if (valid(current)) {
+      foundWords.insert(current);
+      for (int k=0; k<coors.size (); k++) {
+        Tile temp = getTileWithCoor(coors.get(k));
+        temp.correct();
+      }
+    } else {
+      for (int k=0; k<coors.size (); k++) {
+        Tile temp = getTileWithCoor(coors.get(k));
+        temp.wrong();
+      }
+    }
+  }
+}
+
+
+void keyReleased() {
+  if (key == ENTER) {
+    reset();
+  }
+} 
+
+void reset() {
+  game.reset();
+  coors = new ArrayList<Coordinate>();
+  current = "";
+}
+
 
 //Import tree reads in the wordList text file and adds all these words to the tree
 void importTextFile() {
@@ -104,6 +127,15 @@ void createCharBoard() {
 
 //Methods that will be later used to check if the entered word is valid!
 
+boolean valid(String word) {
+  if (appropLength(word) && !isWordDuplicate(word) && isWordInDict(word)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
 //Checks to see in the entered word is the dict tree
 boolean isWordInDict(String word) {
   return dict.find(word);
@@ -116,7 +148,7 @@ boolean isWordDuplicate(String word) {
 
 //you cant have one letter words
 boolean appropLength(String word) {
-  if (word == null || word.length() <2) {
+  if (word == null || word.length() <3) {
     return false;
   } else {
     return true;

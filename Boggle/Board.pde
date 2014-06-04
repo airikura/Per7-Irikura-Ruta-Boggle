@@ -12,46 +12,56 @@ public class Board {
       }
     }
 
-     char selectRandLetter() {
+    char selectRandLetter() {
       int index = int(random(6));
       return sides[index];
     }
   }
 
   Die[] bag;
-  char[] allLetters = {'A', 'A', 'E', 'E', 'G', 'N', 'E', 'L', 'R', 'T', 'T', 'Y', 'A', 'O', 'O', 'T', 'T', 'W',
-  'A', 'B', 'B', 'J', 'O', 'O', 'E', 'H', 'R', 'T', 'V', 'W', 'C', 'I', 'M', 'O', 'T', 'U', 'D', 'I', 'S', 'T', 'T', 'Y',
-  'E', 'I', 'O', 'S', 'S', 'T', 'D', 'E', 'L', 'R', 'V', 'Y', 'A', 'C', 'H', 'O', 'P', 'S', 'H', 'I', 'M', 'N', 'Q', 'U',
-  'E', 'E', 'I', 'N', 'S', 'U', 'E', 'E', 'G', 'H', 'N', 'W', 'A', 'F', 'F', 'K', 'P', 'S', 'H', 'L', 'N', 'N', 'R', 'Z',
-  'D', 'E', 'I', 'L', 'R', 'X'};
+  char[] allLetters = {
+    'A', 'A', 'E', 'E', 'G', 'N', 'E', 'L', 'R', 'T', 'T', 'Y', 'A', 'O', 'O', 'T', 'T', 'W', 
+    'A', 'B', 'B', 'J', 'O', 'O', 'E', 'H', 'R', 'T', 'V', 'W', 'C', 'I', 'M', 'O', 'T', 'U', 'D', 'I', 'S', 'T', 'T', 'Y', 
+    'E', 'I', 'O', 'S', 'S', 'T', 'D', 'E', 'L', 'R', 'V', 'Y', 'A', 'C', 'H', 'O', 'P', 'S', 'H', 'I', 'M', 'N', 'Q', 'U', 
+    'E', 'E', 'I', 'N', 'S', 'U', 'E', 'E', 'G', 'H', 'N', 'W', 'A', 'F', 'F', 'K', 'P', 'S', 'H', 'L', 'N', 'N', 'R', 'Z', 
+    'D', 'E', 'I', 'L', 'R', 'X'
+  };
   char[] pickedLetters;
   Tile[][] gameBoard;
- 
+
 
 
   public Board() {
     setUpLetters();
     gameBoard = new Tile[4][4];
     fillBoard();
-    
   }
-  
-  Tile getTile(int r, int c){
+
+  Tile getTile(int r, int c) {
     return gameBoard[r][c];
   }
-  
 
-  void display(){
-    for (int i =0; i<gameBoard.length; i++){
-      for (int k=0; k<gameBoard[0].length; k++){
+
+  void display() {
+    for (int i =0; i<gameBoard.length; i++) {
+      for (int k=0; k<gameBoard[0].length; k++) {
         Tile m = getTile(i, k);
         m.display();
       }
     }
     fill(0);
-    rect(340, 80, 40, 40);
-    
   }
+
+  void reset() {
+    for (int i =0; i<gameBoard.length; i++) {
+      for (int k=0; k<gameBoard[0].length; k++) {
+        Tile m = getTile(i, k);
+        m.reset();
+      }
+    }
+    fill(0);
+  }
+
 
   void fillBoard() {
     int tracker = 0;
@@ -62,8 +72,8 @@ public class Board {
       }
     }
   }
-  
-  
+
+
 
   void setUpLetters() {
     bag = new Die[16];
