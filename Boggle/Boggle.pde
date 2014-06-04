@@ -4,13 +4,18 @@ char[][] board;
 char[][] tempBoard;
 ArrayList<Coordinate> coors = new ArrayList<Coordinate>();
 String current;
+int currScoreTracker;
+int score;
 Tree dict;
 Tree foundWords;
 Board game;
 
+//For score board
+PFont a = createFont("Arial", 20, true);
+
 
 void setup() {
-  size(400, 400);
+  size(500, 500);
   dict = new Tree();
   //Calls the import function below to create the Dictionary Tree
   importTextFile();
@@ -18,6 +23,8 @@ void setup() {
   foundWords = new Tree();
   board = new char[4][4];
   current = "";
+  score=0;
+  currScoreTracker=0;
 }
 
 
@@ -25,6 +32,23 @@ void draw() {
   background(0, 0, 255);
   fill(0, 255, 0);
   game.display();
+  scoreDisplay();
+}
+
+String currScore(){
+  String str = ""+score;
+  return str;
+}
+
+
+void scoreDisplay(){
+  textAlign(CENTER);
+  textFont(a);
+  text("SCORE", 400, 40);
+  fill(0);
+  rect(350, 50, 100, 40);
+  fill(255);
+  text(currScore(), 400, 75);
 }
 
 
@@ -46,6 +70,7 @@ void mousePressed() {
           selected.select();
           coors.add(selected.getCoordinate());
           current = current + selected.getLetter();
+          currScoreTracker = currScoreTracker + selected.getPointValue();
           return;
         } else {
           Coordinate prev = coors.get(coors.size()-1);
@@ -54,6 +79,7 @@ void mousePressed() {
               selected.select();
               coors.add(selected.getCoordinate());
               current = current + selected.getLetter();
+              currScoreTracker = currScoreTracker + selected.getPointValue();
               return;
             } else {
               reset();
@@ -74,6 +100,7 @@ void keyPressed() {
   if (key == ENTER) {
     if (valid(current)) {
       foundWords.insert(current);
+      score = score + currScoreTracker;
       for (int k=0; k<coors.size (); k++) {
         Tile temp = getTileWithCoor(coors.get(k));
         temp.correct();
@@ -98,6 +125,7 @@ void reset() {
   game.reset();
   coors = new ArrayList<Coordinate>();
   current = "";
+  currScoreTracker = 0;
 }
 
 

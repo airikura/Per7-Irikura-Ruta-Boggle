@@ -1,12 +1,12 @@
 public class Board {
-
+  
   public class Die {
     char[] sides;
 
     public Die(char[] letters) {
       sides = new char[6];
       if (letters.length == sides.length) {
-        for (int i =0; i<sides.length; i++) {
+        for (int i =0; i<sides.length; i++) { 
           sides[i] = letters[i];
         }
       }
@@ -29,6 +29,7 @@ public class Board {
   char[] pickedLetters;
   Tile[][] gameBoard;
 
+  PFont a = createFont("Arial", 20, true);
 
 
   public Board() {
@@ -40,6 +41,7 @@ public class Board {
   Tile getTile(int r, int c) {
     return gameBoard[r][c];
   }
+
 
 
   void display() {
