@@ -39,6 +39,7 @@ public class Board {
   Tile getTile(int r, int c){
     return gameBoard[r][c];
   }
+  
 
   void display(){
     for (int i =0; i<gameBoard.length; i++){
@@ -56,7 +57,7 @@ public class Board {
     int tracker = 0;
     for (int i=0; i<gameBoard.length; i++) {
       for (int k=0; k<gameBoard[0].length; k++) {
-        gameBoard[i][k] = new Tile(80*i, 80*k, pickedLetters[tracker]);
+        gameBoard[i][k] = new Tile(80*i, 80*k, pickedLetters[tracker], i, k);
         tracker++;
       }
     }
