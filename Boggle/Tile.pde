@@ -1,6 +1,8 @@
 public class Tile {
 
   color c = color(255);
+  color textC = color(0);
+  color otextC = color(0);
   int width = 80;
   int height = 80;
   int x;
@@ -8,9 +10,22 @@ public class Tile {
   char letter;
   Coordinate coor;
   boolean isSelected;
+  //Actual pointValue afterPowerUp
   int pointValue;
+  //pointValue before powerUp
+  int originalValue;
   
-  //Main etter
+  //DoubleWord
+  boolean DW;
+  //Triple Word
+  boolean TW;
+  //Triple Letter
+  boolean TL;
+  //Double Letter
+  boolean DL;
+  boolean hasPowerUp;
+  
+  //Main letter
   PFont a = createFont("Arial", 32, true);
   //Point Value
   PFont b = createFont("Arial", 10, true);
@@ -23,12 +38,20 @@ public class Tile {
     coor = new Coordinate(row, col);  
     isSelected = false;
     pointValue = setPointValue();
+    originalValue = setPointValue();
+    DW = false;
+    TW = false;
+    TL = false;
+    DL = false;
+    hasPowerUp = false;
   }
 
 
   public Tile(char c) {
     letter = c;
   }
+
+
 
   int setPointValue() {
     if (letter == 'D' || letter == 'U') {
@@ -39,6 +62,8 @@ public class Tile {
       return 4;
     } else if (letter == 'K'){
       return 5;
+    } else if (letter == 'X'){
+      return 8;
     } else if (letter == 'Z' || letter == 'J' || letter == 'V' || letter == 'Q'){
       return 10;
     } else{
@@ -67,9 +92,64 @@ public class Tile {
   int getPointValue(){
     return pointValue;
   }
+  int getOriginalValue(){
+     return originalValue;
+  }
+  
+  boolean getDW(){ return DW;}
+  boolean getTW(){ return TW;}
+  boolean getTL(){ return TL;}
+  boolean getDL(){ return DL;}
+  boolean getHasPowerUp(){ return hasPowerUp;}
+  
+  String getPowerUp(){
+    String str = "";
+    if (getDW()){
+      return "DW";
+    } else if (getTW()){
+      return "TW";
+    } else if (getDL()){
+      return "DL";
+    }else if (getTL()){
+      return "TL";
+    }else{
+      return str;
+    } 
+  }
+  
 
   void setColor(int a, int b, int d) {
     c = color(a, b, d);
+  }
+  
+  void setDW(){
+    DW = true;
+    hasPowerUp = true;
+    otextC = color (255,255,0);
+    textC = color(255,255,0);
+  }
+  
+  void setTW(){
+    TW = true;
+    hasPowerUp = true;
+    otextC = color (255,0,0);
+    textC = color(255,0,0);
+  }
+  
+  void setTL(){
+    TL = true;
+    hasPowerUp = true;
+    otextC = color (0,0,225);
+    textC = color(0,0,255);
+    pointValue = pointValue*3;
+  }
+  
+  void setDL(){
+    DL = true;
+    hasPowerUp = true;
+    otextC = color (0,255,0);
+    textC = color(0,255,0);
+    pointValue = pointValue*2;
   }
 
   void setup() {
@@ -83,19 +163,27 @@ public class Tile {
   //Tile turns red
   void wrong() {
     c = color(255, 0, 0);
+    textC = color(255,255,255);
   }
 
   //Tile turns green
   void correct() {
     c = color(0, 255, 0);
+    textC = color(255,255,255);
+  }
+  
+  //Tile turns yellow if part of duplicate word
+  void dup(){
+    c = color(255,255,0);
+    textC = color(225, 255, 255);
   }
 
-  //If selected, tile turns blue
+  //If selected, tile turns orange
   void select() {
-    if (isSelected) {
-      c = color(255, 255, 255);
+    if (!isSelected) {
+      c = color(255, 170, 0);
     } else {
-      c = color(0, 0, 255);
+      c = color(255, 255, 255);
     }
     isSelected = !isSelected;
   }
@@ -103,17 +191,26 @@ public class Tile {
   void reset() {
     c = color(255, 255, 255);
     isSelected = false;
+    textC = otextC;
+  }
+  
+  
+  void getTextC(){
+    textC = otextC;
   }
 
   void display() {
     fill(c);
     rect(x, y, 80, 80);
     fill(0);
-    textFont(a);
-    text(getLetter(), x + width/2 - 10, y + height/2 + 5);
+    textAlign(CENTER);
     textFont(b);
-    text(getPointValue(), x + width - 10, y+height -5);
-    
+    text(getOriginalValue(), x + width - 10, y+height -5);
+    textFont(a);
+    fill(textC);
+    text(getLetter(), x + width/2, y + height/2 +5);
+    textFont(b);
+    text(getPowerUp(), x+10, y+10);
   }
 }
 
