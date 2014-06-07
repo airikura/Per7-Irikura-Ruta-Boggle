@@ -40,7 +40,19 @@ void setup() {
 }
 
 
+
+
+
 void draw() {
+  if (time.getRemainingTimeSeconds() >= 0){
+    displayGame();
+  }
+  else{
+    displayResults();
+  }
+}
+
+void displayGame(){
   background(0, 0, 255);
   fill(0, 255, 0);
   game.display();
@@ -49,6 +61,12 @@ void draw() {
   totalWordsDisplay();
   wordAddedDisplay();
 }
+
+void displayResults(){
+  background(0,255,0);
+  
+}
+
 
 
 String currScore() {
