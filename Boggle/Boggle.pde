@@ -7,10 +7,11 @@ String current;
 Tree dict;
 Tree foundWords;
 Board game;
+Timer time;
 
 
 void setup() {
-  size(400, 400);
+  size(500, 500);
   dict = new Tree();
   //Calls the import function below to create the Dictionary Tree
   importTextFile();
@@ -18,6 +19,7 @@ void setup() {
   foundWords = new Tree();
   board = new char[4][4];
   current = "";
+  
 }
 
 
@@ -25,6 +27,13 @@ void draw() {
   background(0, 0, 255);
   fill(0, 255, 0);
   game.display();
+  if (time == null){
+    text("120", 240, 360);
+  }
+  else{
+  
+    text(time.getRemainingTimeSeconds(), 240, 360);
+  }
 }
 
 //Returns true if the cooridnate was already selected
@@ -43,9 +52,28 @@ Tile getTileWithCoor(Coordinate c) {
   return game.getTile(row, col);
 }
 
+  
+  boolean inBoundsRect(int x, int y, int width, int height, 
+                      int mouseX, int mouseY){
+                if ((mouseX < (x + width)) && (mouseX > x) && (mouseY< (y+ height))
+                   && (mouseY > y)){
+                     return true;
+                   }
+                   return false;
+                    }
+
 //Changes the color of tile pressed to blue, and adds it to end of word
 //Reminder: ArrayLists add to the end of the list!!!
 void mousePressed() {
+  //if game has already started, only check tiles 
+  
+  if (time != null){
+    if ((mouseX < 390) && (mouseX > 300) && (mouseY > 340) 
+    && (mouseY < 430)){
+       time = null;
+       setup();
+      
+    }
   for (int i =0; i < 4; i ++) {
     for (int j =0; j < 4; j++) {
       Tile selected = game.getTile(i, j);
@@ -75,7 +103,29 @@ void mousePressed() {
       }
     }
   }
-}
+  }
+
+  
+  
+  //if game hasn't started, see if start button is clicked
+  else {
+    if (inBoundsRect(120,340, 80, 40, mouseX, mouseY)){
+    
+   // ((mouseX < 200) && (mouseX > 120) && (mouseY > 340) 
+//&& (mouseY < 380)){
+  
+      time = new Timer(120);
+      time.start();
+      
+    }
+    }
+    if ((mouseX < 90 && mouseX > 10) && (mouseY <395 && mouseY > 340)){
+      setup();
+    }
+  }
+  
+
+
 
 void keyPressed() {
   if (key == ENTER) {

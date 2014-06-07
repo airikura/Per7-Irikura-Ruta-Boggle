@@ -47,9 +47,23 @@ public class Board {
       for (int k=0; k<gameBoard[0].length; k++) {
         Tile m = getTile(i, k);
         m.display();
+        
       }
     }
-    fill(0);
+   fill(0);
+   rect(300, 340, 80, 40);
+   fill(255);
+   text("End", 310, 370);
+   fill(0);
+   rect(120, 340, 80, 40);
+   fill(255);
+   text("Start", 120, 370);
+   fill(0);
+   rect(10, 340, 80, 55);
+   fill(255);
+   textSize(20);
+   text("New \nGame", 22, 360);
+    
   }
 
   void reset() {
