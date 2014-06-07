@@ -9,16 +9,13 @@ int score;
 Tree dict;
 Tree foundWords;
 Board game;
-<<<<<<< HEAD
 Timer time;
-=======
 boolean doubleWord1;
 boolean doubleWord2;
 boolean tripleWord;
 
 //For score board
 PFont a = createFont("Arial", 20, true);
->>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
 
 
 void setup() {
@@ -30,15 +27,11 @@ void setup() {
   foundWords = new Tree();
   board = new char[4][4];
   current = "";
-<<<<<<< HEAD
-  
-=======
   score=0;
   currScoreTracker=0;
   doubleWord1=false;
   doubleWord2=false;
   tripleWord=false;
->>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
 }
 
 
@@ -46,26 +39,22 @@ void draw() {
   background(0, 0, 255);
   fill(0, 255, 0);
   game.display();
-<<<<<<< HEAD
-  if (time == null){
+  if (time == null) {
     text("120", 240, 360);
-  }
-  else{
-  
+  } else {
+
     text(time.getRemainingTimeSeconds(), 240, 360);
   }
-=======
   scoreDisplay();
->>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
 }
 
-String currScore(){
+String currScore() {
   String str = ""+score;
   return str;
 }
 
 
-void scoreDisplay(){
+void scoreDisplay() {
   textAlign(CENTER);
   textFont(a);
   fill(0);
@@ -83,114 +72,109 @@ Tile getTileWithCoor(Coordinate c) {
   return game.getTile(row, col);
 }
 
-<<<<<<< HEAD
-  
-  boolean inBoundsRect(int x, int y, int width, int height, 
-                      int mouseX, int mouseY){
-                if ((mouseX < (x + width)) && (mouseX > x) && (mouseY< (y+ height))
-                   && (mouseY > y)){
-                     return true;
-                   }
-                   return false;
-                    }
-=======
 
->>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
+
+boolean inBoundsRect(int x, int y, int width, int height, 
+int mouseX, int mouseY) {
+  if ((mouseX < (x + width)) && (mouseX > x) && (mouseY< (y+ height))
+    && (mouseY > y)) {
+    return true;
+  }
+  return false;
+}
 
 //Changes the color of tile pressed to blue, and adds it to end of word
 //Reminder: ArrayLists add to the end of the list!!!
 void mousePressed() {
   //if game has already started, only check tiles 
-  
-  if (time != null){
+
+  if (time != null) {
     if ((mouseX < 390) && (mouseX > 300) && (mouseY > 340) 
-    && (mouseY < 430)){
-       time = null;
-       setup();
-      
+      && (mouseY < 430)) {
+      time = null;
+      setup();
     }
-  for (int i =0; i < 4; i ++) {
-    for (int j =0; j < 4; j++) {
-      Tile selected = game.getTile(i, j);
-      if (selected.inBounds(mouseX, mouseY)) {
-        //The first tile selected for the new word
-        if (coors.size() == 0) {
-          selected.select();
-          coors.add(selected.getCoordinate());
-          current = current + selected.getLetter();
-          currScoreTracker = currScoreTracker + selected.getPointValue();
-          if (selected.getTW()){
-            tripleWord = true;
-          }
-          if (selected.getDW()){
-            doubleWord1 = true;
-          }
-          return;
-        } else {
-          Coordinate prev = coors.get(coors.size()-1);
-          if (selected.getCoordinate().isAdjacentTo(prev)) {
-            if (!selected.getIsSelected()) {
-              selected.select();
-              coors.add(selected.getCoordinate());
-              current = current + selected.getLetter();
-              currScoreTracker = currScoreTracker + selected.getPointValue();
-              if (selected.getTW()){
-                tripleWord = true;
-              } 
-              if (selected.getDW()){
-                if (!doubleWord1){
-                  doubleWord1 = true;
-                }else {
-                  doubleWord2 = true;
+    for (int i =0; i < 4; i ++) {
+      for (int j =0; j < 4; j++) {
+        Tile selected = game.getTile(i, j);
+        if (selected.inBounds(mouseX, mouseY)) {
+          //The first tile selected for the new word
+          if (coors.size() == 0) {
+            selected.select();
+            coors.add(selected.getCoordinate());
+            current = current + selected.getLetter();
+            currScoreTracker = currScoreTracker + selected.getPointValue();
+            if (selected.getTW()) {
+              tripleWord = true;
+            }
+            if (selected.getDW()) {
+              doubleWord1 = true;
+            }
+            return;
+          } else {
+            Coordinate prev = coors.get(coors.size()-1);
+            if (selected.getCoordinate().isAdjacentTo(prev)) {
+              if (!selected.getIsSelected()) {
+                selected.select();
+                coors.add(selected.getCoordinate());
+                current = current + selected.getLetter();
+                currScoreTracker = currScoreTracker + selected.getPointValue();
+                if (selected.getTW()) {
+                  tripleWord = true;
+                } 
+                if (selected.getDW()) {
+                  if (!doubleWord1) {
+                    doubleWord1 = true;
+                  } else {
+                    doubleWord2 = true;
+                  }
                 }
+                return;
+              } else {
+                reset();
+                return;
               }
-              return;
+              //reset all of the tiles and get rid of the word
             } else {
               reset();
               return;
             }
-            //reset all of the tiles and get rid of the word
-          } else {
-            reset();
-            return;
           }
         }
       }
     }
   }
-  }
 
-  
-  
+
+
   //if game hasn't started, see if start button is clicked
   else {
-    if (inBoundsRect(120,340, 80, 40, mouseX, mouseY)){
-    
-   // ((mouseX < 200) && (mouseX > 120) && (mouseY > 340) 
-//&& (mouseY < 380)){
-  
+    if (inBoundsRect(120, 340, 80, 40, mouseX, mouseY)) {
+
+      // ((mouseX < 200) && (mouseX > 120) && (mouseY > 340) 
+      //&& (mouseY < 380)){
+
       time = new Timer(120);
       time.start();
-      
-    }
-    }
-    if ((mouseX < 90 && mouseX > 10) && (mouseY <395 && mouseY > 340)){
-      setup();
     }
   }
-  
+  if ((mouseX < 90 && mouseX > 10) && (mouseY <395 && mouseY > 340)) {
+    setup();
+  }
+}
 
 
 
-int currScoreTracker(){
+
+int currScoreTracker() {
   int before = currScoreTracker;
-  if (tripleWord){
+  if (tripleWord) {
     before = before*3;
   }
-  if (doubleWord1){
+  if (doubleWord1) {
     before = before*2;
   }
-  if (doubleWord2){
+  if (doubleWord2) {
     before = before*2;
   }
   return before;
@@ -206,11 +190,11 @@ void keyPressed() {
         Tile temp = getTileWithCoor(coors.get(k));
         temp.correct();
       }
-    } else if  (isWordDuplicate(current)){
-        for (int k=0; k<coors.size (); k++) {
+    } else if  (isWordDuplicate(current)) {
+      for (int k=0; k<coors.size (); k++) {
         Tile temp = getTileWithCoor(coors.get(k));
         temp.dup();
-      }   
+      }
     } else {
       for (int k=0; k<coors.size (); k++) {
         Tile temp = getTileWithCoor(coors.get(k));

@@ -55,7 +55,7 @@ public class Board {
         
       }
     }
-<<<<<<< HEAD
+
    fill(0);
    rect(300, 340, 80, 40);
    fill(255);
@@ -69,9 +69,6 @@ public class Board {
    fill(255);
    textSize(20);
    text("New \nGame", 22, 360);
-    
-=======
->>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
   }
 
   void reset() {
