@@ -11,6 +11,7 @@ Tree dict;
 Tree foundWords;
 Board game;
 Timer time;
+Results res;
 boolean doubleWord1;
 boolean doubleWord2;
 boolean tripleWord;
@@ -35,6 +36,7 @@ void setup() {
   doubleWord1=false;
   doubleWord2=false;
   tripleWord=false;
+  res = new Results();
   time = new Timer(120);
   time.start();
 }
@@ -63,8 +65,44 @@ void displayGame(){
 }
 
 void displayResults(){
-  background(0,255,0);
+  background(0,0,0);
+  fill(255);
+  rect(30,65,440,300);
+  textFont(b);
+  textAlign(CENTER);
+  fill(0,255,0);
+  text("G A M E  O V E R", 250, 50);
+  fill(0,0,255);
+  text("G A M E  O V E R", 253, 53);
+  fill(255,0,0);
+  text("G A M E  O V E R", 256, 56);
+  res.sortByPointValue();
+  int v = 90;
+  for (int i=res.getLength()-1; i>-1; i--){
+    setResults(res.getSub(i), v);
+    v = v + 15;
+  }
+  fill(225);
+  textAlign(CENTER);
+  text("FINAL SCORE", 285, 390);
+  fill(255);
+  rect(350,375,70,20);
+  fill(0);
+  textAlign(CENTER);
+  text(currScore(), 370, 390);
+  fill(255);
+  text("TOTAL WORDS", 50, 390);
+  rect(120,375,70,20);
+  fill(0);
+  text(currTotalWords(), 140,390);
   
+}
+
+void setResults(Submission s, int vert){
+  fill(0);
+  textSize(14);
+  textAlign(LEFT);
+  text(s.printout(), 50, vert);
 }
 
 
@@ -266,6 +304,8 @@ void keyPressed() {
       foundWords.insert(current);
       score = score + currScoreTracker();
       totalWords++;
+      Submission s = new Submission(current, currScoreTracker());
+      res.insert(s);
       //tempWordPoints();
       for (int k=0; k<coors.size (); k++) {
         Tile temp = getTileWithCoor(coors.get(k));
