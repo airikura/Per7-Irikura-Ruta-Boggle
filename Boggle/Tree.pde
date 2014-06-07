@@ -49,6 +49,7 @@ public class Tree{
   
   public Tree(){
       root = new Node();
+      totalWords = 0;
   }
   
   //inserting a word into a tree

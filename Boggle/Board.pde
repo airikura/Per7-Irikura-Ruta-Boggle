@@ -46,6 +46,16 @@ public class Board {
   }
 
 
+void newGameButtonDisplay(){
+   fill(0);
+   rect(360, 340, 100, 30);
+   fill(255);
+   textAlign(CENTER);
+   textSize(18);
+   text("New Game", 410, 360);
+}
+
+
 
   void display() {
     for (int i =0; i<gameBoard.length; i++) {
@@ -55,20 +65,16 @@ public class Board {
         
       }
     }
+    newGameButtonDisplay();
 
-   fill(0);
+ /*  fill(0);
    rect(300, 340, 80, 40);
    fill(255);
    text("End", 310, 370);
    fill(0);
    rect(120, 340, 80, 40);
    fill(255);
-   text("Start", 120, 370);
-   fill(0);
-   rect(10, 340, 80, 55);
-   fill(255);
-   textSize(20);
-   text("New \nGame", 22, 360);
+   text("Start", 120, 370);*/
   }
 
   void reset() {

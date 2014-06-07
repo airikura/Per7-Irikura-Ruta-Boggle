@@ -6,6 +6,7 @@ ArrayList<Coordinate> coors = new ArrayList<Coordinate>();
 String current;
 int currScoreTracker;
 int score;
+int totalWords;
 Tree dict;
 Tree foundWords;
 Board game;
@@ -14,12 +15,14 @@ boolean doubleWord1;
 boolean doubleWord2;
 boolean tripleWord;
 
-//For score board
+
 PFont a = createFont("Arial", 20, true);
+PFont b = createFont("Arial", 60, true);
+
 
 
 void setup() {
-  size(500, 500);
+  size(500, 415);
   dict = new Tree();
   //Calls the import function below to create the Dictionary Tree
   importTextFile();
@@ -32,6 +35,8 @@ void setup() {
   doubleWord1=false;
   doubleWord2=false;
   tripleWord=false;
+  time = new Timer(120);
+  time.start();
 }
 
 
@@ -39,30 +44,72 @@ void draw() {
   background(0, 0, 255);
   fill(0, 255, 0);
   game.display();
-  if (time == null) {
-    text("120", 240, 360);
-  } else {
-
-    text(time.getRemainingTimeSeconds(), 240, 360);
-  }
+  timerDisplay();
   scoreDisplay();
+  totalWordsDisplay();
+  wordAddedDisplay();
 }
+
 
 String currScore() {
   String str = ""+score;
   return str;
 }
 
+String currTotalWords() {
+  int words = foundWords.getTotalWords();
+  String str = ""+words;
+  return str;
+}
+
+
+void wordAddedDisplay(){
+  textSize(18);
+  textAlign(LEFT);
+  fill(0);
+  rect(10, 340, 275, 30);
+  fill(255);
+  text(current, 10,360);
+}
+
+
+
+void timerDisplay(){
+  fill(255,0,0);
+  rect(360,220,100,80);
+  textAlign(CENTER);
+  textFont(b);
+  fill(255);
+  if (time==null){
+    text("120", 410,280);
+  } else{
+  text(time.getRemainingTimeSeconds(), 410, 280);
+  }
+}
+
+
+void totalWordsDisplay() {
+  textAlign(CENTER);
+  textFont(a);
+  fill(0);
+  text("TOTAL WORDS", 410, 140);
+  fill(0);
+  rect(360, 150, 100, 40);
+  fill(255);
+  text(currTotalWords(), 410, 175);
+}
+
+
 
 void scoreDisplay() {
   textAlign(CENTER);
   textFont(a);
   fill(0);
-  text("SCORE", 400, 40);
+  text("SCORE", 410, 40);
   fill(0);
-  rect(350, 50, 100, 40);
+  rect(360, 50, 100, 40);
   fill(255);
-  text(currScore(), 400, 75);
+  text(currScore(), 410, 75);
 }
 
 
@@ -158,7 +205,7 @@ void mousePressed() {
       time.start();
     }
   }
-  if ((mouseX < 90 && mouseX > 10) && (mouseY <395 && mouseY > 340)) {
+  if ((mouseX < 460 && mouseX > 360) && (mouseY <370 && mouseY > 340)) {
     setup();
   }
 }
@@ -181,11 +228,27 @@ int currScoreTracker() {
 }
 
 
+String getCurrScore(){
+  String str = ""+currScoreTracker();
+  str = "+"+str;
+  return str;
+}
+
+void tempWordPoints(){
+  fill(255);
+  textSize(16);
+  textAlign(LEFT);
+  text(getCurrScore(), 250, 360);
+}
+
+
 void keyPressed() {
   if (key == ENTER) {
     if (valid(current)) {
       foundWords.insert(current);
       score = score + currScoreTracker();
+      totalWords++;
+      //tempWordPoints();
       for (int k=0; k<coors.size (); k++) {
         Tile temp = getTileWithCoor(coors.get(k));
         temp.correct();
