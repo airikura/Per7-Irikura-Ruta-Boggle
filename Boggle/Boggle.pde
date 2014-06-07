@@ -4,10 +4,21 @@ char[][] board;
 char[][] tempBoard;
 ArrayList<Coordinate> coors = new ArrayList<Coordinate>();
 String current;
+int currScoreTracker;
+int score;
 Tree dict;
 Tree foundWords;
 Board game;
+<<<<<<< HEAD
 Timer time;
+=======
+boolean doubleWord1;
+boolean doubleWord2;
+boolean tripleWord;
+
+//For score board
+PFont a = createFont("Arial", 20, true);
+>>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
 
 
 void setup() {
@@ -19,7 +30,15 @@ void setup() {
   foundWords = new Tree();
   board = new char[4][4];
   current = "";
+<<<<<<< HEAD
   
+=======
+  score=0;
+  currScoreTracker=0;
+  doubleWord1=false;
+  doubleWord2=false;
+  tripleWord=false;
+>>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
 }
 
 
@@ -27,6 +46,7 @@ void draw() {
   background(0, 0, 255);
   fill(0, 255, 0);
   game.display();
+<<<<<<< HEAD
   if (time == null){
     text("120", 240, 360);
   }
@@ -34,24 +54,36 @@ void draw() {
   
     text(time.getRemainingTimeSeconds(), 240, 360);
   }
+=======
+  scoreDisplay();
+>>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
 }
 
-//Returns true if the cooridnate was already selected
-boolean AlreadyPressed(Coordinate c) {
-  for (int i =0; i<coors.size (); i++) {
-    if (coors.get(i).repeatCoor(c)) {
-      return true;
-    }
-  }
-  return false;
+String currScore(){
+  String str = ""+score;
+  return str;
 }
+
+
+void scoreDisplay(){
+  textAlign(CENTER);
+  textFont(a);
+  fill(0);
+  text("SCORE", 400, 40);
+  fill(0);
+  rect(350, 50, 100, 40);
+  fill(255);
+  text(currScore(), 400, 75);
+}
+
 
 Tile getTileWithCoor(Coordinate c) {
-  int row = c.getRow();
-  int col = c.getCol();
+  int row = c.getR();
+  int col = c.getC();
   return game.getTile(row, col);
 }
 
+<<<<<<< HEAD
   
   boolean inBoundsRect(int x, int y, int width, int height, 
                       int mouseX, int mouseY){
@@ -61,6 +93,9 @@ Tile getTileWithCoor(Coordinate c) {
                    }
                    return false;
                     }
+=======
+
+>>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
 
 //Changes the color of tile pressed to blue, and adds it to end of word
 //Reminder: ArrayLists add to the end of the list!!!
@@ -83,13 +118,32 @@ void mousePressed() {
           selected.select();
           coors.add(selected.getCoordinate());
           current = current + selected.getLetter();
+          currScoreTracker = currScoreTracker + selected.getPointValue();
+          if (selected.getTW()){
+            tripleWord = true;
+          }
+          if (selected.getDW()){
+            doubleWord1 = true;
+          }
           return;
         } else {
-          if (selected.getCoordinate().isAdjacentTo(coors.get(coors.size()-1))) {
+          Coordinate prev = coors.get(coors.size()-1);
+          if (selected.getCoordinate().isAdjacentTo(prev)) {
             if (!selected.getIsSelected()) {
               selected.select();
               coors.add(selected.getCoordinate());
               current = current + selected.getLetter();
+              currScoreTracker = currScoreTracker + selected.getPointValue();
+              if (selected.getTW()){
+                tripleWord = true;
+              } 
+              if (selected.getDW()){
+                if (!doubleWord1){
+                  doubleWord1 = true;
+                }else {
+                  doubleWord2 = true;
+                }
+              }
               return;
             } else {
               reset();
@@ -98,6 +152,7 @@ void mousePressed() {
             //reset all of the tiles and get rid of the word
           } else {
             reset();
+            return;
           }
         }
       }
@@ -127,14 +182,35 @@ void mousePressed() {
 
 
 
+int currScoreTracker(){
+  int before = currScoreTracker;
+  if (tripleWord){
+    before = before*3;
+  }
+  if (doubleWord1){
+    before = before*2;
+  }
+  if (doubleWord2){
+    before = before*2;
+  }
+  return before;
+}
+
+
 void keyPressed() {
   if (key == ENTER) {
     if (valid(current)) {
       foundWords.insert(current);
+      score = score + currScoreTracker();
       for (int k=0; k<coors.size (); k++) {
         Tile temp = getTileWithCoor(coors.get(k));
         temp.correct();
       }
+    } else if  (isWordDuplicate(current)){
+        for (int k=0; k<coors.size (); k++) {
+        Tile temp = getTileWithCoor(coors.get(k));
+        temp.dup();
+      }   
     } else {
       for (int k=0; k<coors.size (); k++) {
         Tile temp = getTileWithCoor(coors.get(k));
@@ -155,6 +231,10 @@ void reset() {
   game.reset();
   coors = new ArrayList<Coordinate>();
   current = "";
+  currScoreTracker = 0;
+  tripleWord = false;
+  doubleWord1 = false;
+  doubleWord2 = false;
 }
 
 

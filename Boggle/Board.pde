@@ -1,12 +1,12 @@
 public class Board {
-
+  
   public class Die {
     char[] sides;
 
     public Die(char[] letters) {
       sides = new char[6];
       if (letters.length == sides.length) {
-        for (int i =0; i<sides.length; i++) {
+        for (int i =0; i<sides.length; i++) { 
           sides[i] = letters[i];
         }
       }
@@ -28,18 +28,23 @@ public class Board {
   };
   char[] pickedLetters;
   Tile[][] gameBoard;
+  int[] pickPowers;
+  int[][] powerUps;
 
+  PFont a = createFont("Arial", 20, true);
 
 
   public Board() {
     setUpLetters();
     gameBoard = new Tile[4][4];
     fillBoard();
+    giveTilesPower();
   }
 
   Tile getTile(int r, int c) {
     return gameBoard[r][c];
   }
+
 
 
   void display() {
@@ -50,6 +55,7 @@ public class Board {
         
       }
     }
+<<<<<<< HEAD
    fill(0);
    rect(300, 340, 80, 40);
    fill(255);
@@ -64,6 +70,8 @@ public class Board {
    textSize(20);
    text("New \nGame", 22, 360);
     
+=======
+>>>>>>> 5d97c466ee9465f67cfb3629a5b0c2ad505f08cc
   }
 
   void reset() {
@@ -73,7 +81,6 @@ public class Board {
         m.reset();
       }
     }
-    fill(0);
   }
 
 
@@ -81,12 +88,90 @@ public class Board {
     int tracker = 0;
     for (int i=0; i<gameBoard.length; i++) {
       for (int k=0; k<gameBoard[0].length; k++) {
-        gameBoard[i][k] = new Tile(80*i, 80*k, pickedLetters[tracker], i, k);
+        gameBoard[i][k] = new Tile(80*i+10, 80*k+10, pickedLetters[tracker], i, k);
         tracker++;
       }
     }
   }
 
+
+//1=Tw, 2=Dw, 3=Tl, 4=Dl
+//one tw, two dw, two tl, one dl
+  void attributePowerUps(){
+    pickPowers = new int[16];
+    powerUps = new int[4][4];
+    int r = int(random(16));
+    pickPowers[r] = 1;
+    boolean s1 = true;
+    while (s1){
+      r = int(random(16));
+      if (pickPowers[r]==0){
+        pickPowers[r] = 2;
+        s1 = false;
+      }
+    }
+    boolean s2 = true;
+    while(s2){
+      r = int(random(16));
+      if (pickPowers[r]==0){
+        pickPowers[r] = 2;
+        s2 = false;
+      }
+    }
+    boolean s3 = true;
+    while(s3){
+      r = int(random(16));
+      if (pickPowers[r]==0){
+        pickPowers[r] = 3;
+        s3 = false;
+      }
+    }
+    boolean s4 = true;
+    while(s4){
+      r = int(random(16));
+      if (pickPowers[r]==0){
+        pickPowers[r] = 3;
+        s4 = false;
+      }
+    }
+    boolean s5 = true;
+    while(s5){
+      r = int(random(16));
+      if (pickPowers[r]==0){
+        pickPowers[r] = 4;
+        s5 = false;
+      } 
+    }
+    int tracker = 0;
+    for (int i=0; i<4; i++){
+      for (int j=0; j<4; j++){
+        powerUps [i][j] = pickPowers[tracker];
+        tracker++;
+      }
+    }
+  }
+  
+  void giveTilesPower(){
+    attributePowerUps();
+    for (int i=0; i<4; i++){
+      for (int j=0; j<4; j++){
+        Tile temp = getTile(i,j);
+        int a = powerUps[i][j];
+        setPowerUps(temp, a);
+      }
+    }
+  }
+  
+  void setPowerUps(Tile m, int n){
+    if (n==1){
+      m.setTW();}
+    if (n==2){
+      m.setDW();}
+    if (n==3){
+      m.setTL();}
+    if (n==4){
+      m.setDL();}
+   }
 
 
   void setUpLetters() {

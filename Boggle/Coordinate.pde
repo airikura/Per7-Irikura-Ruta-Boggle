@@ -7,15 +7,15 @@
       col = c;
     }
     
-    int getRow(){
+    int getR(){
       return row;}
-    int getCol(){
+    int getC(){
       return col;}
     
     //Adjacent meaing veritically, horizontally and diagonally
     boolean isAdjacentTo(Coordinate coor){
-      int otherRow = coor.getRow();
-      int otherCol = coor.getCol();
+      int otherRow = coor.getR();
+      int otherCol = coor.getC();
       if ((abs(row-otherRow))<2 && (abs(col-otherCol))<2){
           return true;
       }else{
@@ -25,6 +25,6 @@
     
     //Checks to see if two coordinates are identical
     boolean repeatCoor(Coordinate coor){
-       return (coor.getRow() == row && coor.getCol() == col);
+       return (coor.getR() == row && coor.getC() == col);
     }
   }  
