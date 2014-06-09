@@ -55,6 +55,7 @@ public class Tree{
   //inserting a word into a tree
   //using UpperCase Letters
   void insert(String word){
+    
     Node tracker= root;
     int charIndex = 0;
     while (charIndex < word.length()){
@@ -74,6 +75,7 @@ public class Tree{
       charIndex++;
     }
   }
+  
 
   int getTotalWords(){
     return totalWords;}
@@ -81,6 +83,7 @@ public class Tree{
   //Returns true if the word is found, false if not
   //Does NOT remove word from the dictionary/tree
   boolean find(String word){
+   
     Node tracker = root;
     char current;
     int currentASCII;
@@ -95,12 +98,15 @@ public class Tree{
       }  
       //Checks to see if the last letter is a valid node
       //Returns true if it is a valid node and is marked by endWord
+      if (word.length() > 0){
       currentASCII = (int) word.charAt(word.length()-1);
       if (tracker.getNextLetter(currentASCII - 65) == null){
           return false;
       } else {
         return tracker.getNextLetter(currentASCII - 65).isEndWord();
     }
+  }
+  return false;
   }
 }
 
